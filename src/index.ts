@@ -13,6 +13,7 @@ export const getParsedValue = (raw: string) => {
 
 export const checkDeduplicateInstalledVersion = (obj: lockfile.YarnLockObject, checkPackageName: RegExp | undefined = undefined) => {
   const { installedStructure } = factory.generateDisplayPackageData(obj, checkPackageName);
+  fs.writeFileSync("output/installedStructure.json", JSON.stringify(installedStructure, null , 2));
   const messageData: MessageData = {
     errors: [],
     warning: [],
@@ -20,13 +21,20 @@ export const checkDeduplicateInstalledVersion = (obj: lockfile.YarnLockObject, c
   Object.entries(installedStructure).forEach(([packageName, value]) => {
     // TODO exclude "|| {}""
     if (Object.keys(value || {}).length > 1) {
-      const realInstalledVersions = uniq(Object.values(value || {}).map(d => d.realUsedVersion));
-      if (realInstalledVersions.length > 1 && (!!checkPackageName && packageName.match(checkPackageName))) {
+      const valueObject = value || {};
+      const realInstalledVersions = uniq(Object.values(valueObject).map(d => d.realUsedVersion));
+      const isCheckTarget: boolean = !!checkPackageName && !!packageName.match(checkPackageName);
+      // 実際に利用しているバージョンが異なるものを複数もつ場合 かつ、チェック対象の場合
+      if (realInstalledVersions.length > 1 && isCheckTarget) {
         messageData.errors.push({
           name: packageName,
-          data: realInstalledVersions,
-          message: "multi version error!"
-        })
+          data: Object.values(valueObject),
+        });
+      } else if (realInstalledVersions.length > 1) {
+        messageData.warning.push({
+          name: packageName,
+          data: Object.values(valueObject),
+        });
       }
     }
   })
@@ -37,8 +45,8 @@ const main = () => {
   const params = getInputParams();
   const raw = fs.readFileSync(params.inputYarnLockPath, "utf8");
   const parsedValue = getParsedValue(raw);
-  checkDeduplicateInstalledVersion(parsedValue.object, params.checkPattern ? new RegExp(params.checkPattern) : undefined);
   fs.mkdirSync(path.dirname(params.outputFilename), { recursive: true });
+  checkDeduplicateInstalledVersion(parsedValue.object, params.checkPattern ? new RegExp(params.checkPattern) : undefined);
   fs.writeFileSync(params.outputFilename, JSON.stringify(parsedValue, null, 2));
   logger.info(`Write: ${params.outputFilename}`);
 }
