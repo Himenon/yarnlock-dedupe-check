@@ -1,7 +1,3 @@
-export const uniq = (stringArray: string[]) => {
+export const uniq = (stringArray: string[]): string[] => {
   return Array.from(new Set(stringArray));
-}
-
-export const uniqObjList = (objList: Object[]) => {
-  return Array.from(new Set(objList));
 }

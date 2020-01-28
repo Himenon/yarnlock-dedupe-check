@@ -12,7 +12,7 @@ export const getParsedValue = (raw: string) => {
 }
 
 export const checkDeduplicateInstalledVersion = (obj: lockfile.YarnLockObject, checkPackageName: RegExp | undefined = undefined) => {
-  const { installedStructure } = factory.generateDisplayPackageData(obj, checkPackageName);
+  const { installedStructure } = factory.generatePackageStructure({ type: "yarn", data: obj }, checkPackageName);
   fs.writeFileSync("output/installedStructure.json", JSON.stringify(installedStructure, null , 2));
   const messageData: MessageData = {
     errors: [],

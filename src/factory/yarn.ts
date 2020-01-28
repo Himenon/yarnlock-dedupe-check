@@ -1,21 +1,11 @@
 import * as lockfile from "@yarnpkg/lockfile";
-import { parseConcatNameAndVersionString, PackageBasicPairData } from "./parser";
-import { uniq } from "./utils";
+import { parseConcatNameAndVersionString } from "../parser";
+import { PackageBasicPairData, DisplayPackageData, InstalledStructure, PackageStructure } from "./types";
+import { uniq } from "../utils";
 
-export interface UsingRelation {
-  realUsedVersion: string;
-  used: PackageBasicPairData[];
-}
+export type OriginData = lockfile.YarnLockObject;
 
-export interface DisplayPackageData {
-  [displayVersion: string]: UsingRelation;
-}
-
-export interface InstalledStructure {
-  [displayName: string]: DisplayPackageData | undefined;
-}
-
-export const generateUsed = ({ name, version }: PackageBasicPairData, obj: lockfile.YarnLockObject): PackageBasicPairData[] => {
+export const generateUsed = ({ name, version }: PackageBasicPairData, obj: OriginData): PackageBasicPairData[] => {
   return Object.entries(obj).reduce<PackageBasicPairData[]>((used, [packageName, value]) => {
     // dependenciesに指定したバージョンのライブラリが含まれているかどうか
     const hasDependency = Object.entries(value.dependencies || {}).find(([depName, depVersion]) => depName === name && depVersion === version);
@@ -26,7 +16,7 @@ export const generateUsed = ({ name, version }: PackageBasicPairData, obj: lockf
   }, []);
 }
 
-export const generateDisplayPackageData = (obj: lockfile.YarnLockObject, checkPackageName: RegExp | undefined = undefined) => {
+export const generateDisplayPackageData = (obj: OriginData, checkPackageName: RegExp | undefined = undefined): PackageStructure => {
   const packageNameList: string[] = [];
   const dataSet = Object.entries(obj).map(([key, value]) => {
     const packageBasicPairData = parseConcatNameAndVersionString(key);

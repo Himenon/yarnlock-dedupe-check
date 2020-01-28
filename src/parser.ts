@@ -1,7 +1,4 @@
-export interface PackageBasicPairData {
-  name: string;
-  version: string;
-}
+import { PackageBasicPairData } from "./types";
 
 /**
  * @example raw @pkg1/hoge@^1.2.3

@@ -1,4 +1,4 @@
-import { UsingRelation } from "./factory";
+import { UsingRelation } from "./factory/types";
 
 export interface Data {
   name: string;
