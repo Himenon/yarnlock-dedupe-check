@@ -27,12 +27,12 @@ export const generateCategorizedData = (obj: lockfile.YarnLockObject, checkPacka
       if (realInstalledVersions.length > 1 && isCheckTarget) {
         categorizedData.errors.push({
           name: packageName,
-          data: Object.values(valueObject),
+          usingRelation: Object.values(valueObject),
         });
       } else if (realInstalledVersions.length > 1) {
         categorizedData.warning.push({
           name: packageName,
-          data: Object.values(valueObject),
+          usingRelation: Object.values(valueObject),
         });
       }
     }
