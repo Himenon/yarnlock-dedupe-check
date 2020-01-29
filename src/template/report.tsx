@@ -1,8 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
+import * as React from "react";
+
+export const createTemplate = () => {
+  return (
+    <html lang="en">
 
 <head>
-  <meta charset="utf-8" />
+  <meta charSet="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>yarn.lock checker report</title>
   <link rel="stylesheet" type="text/css"
@@ -12,26 +15,21 @@
   <script src="https://code.jquery.com/jquery-3.1.1.min.js"
     integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
-  <style>
-    .ui.container {
-      padding-top: 5em;
-      padding-bottom: 5em;
-    }
-  </style>
+  <style />
 </head>
 
 <body>
-  <div class="ui container">
-    <h1 class="ui header">yarn.lock checker report</h1>
-    <div class="ui">
-      <h2 class="ui header">Errors</h2>
-      <div class="ui top attached error icon message">
-        <i class="attention icon"></i>
-        <div class="content">
+  <div className="ui container">
+    <h1 className="ui header">yarn.lock checker report</h1>
+    <div className="ui">
+      <h2 className="ui header">Errors</h2>
+      <div className="ui top attached error icon message">
+        <i className="attention icon"></i>
+        <div className="content">
           multi version installed error!
         </div>
       </div>
-      <table class="ui attached selectable celled table">
+      <table className="ui attached selectable celled table">
         <thead>
           <tr>
             <th>Package</th>
@@ -44,7 +42,7 @@
             <td rowspan="3">
               package name 1
             </td>
-            <td rowspan="2" class="negative">
+            <td rowSpan= className="negative">
               0.1.2
             </td>
             <td>
@@ -57,7 +55,7 @@
             </td>
           </tr>
           <tr>
-            <td  class="negative">
+            <td  className="negative">
               0.1.4
             </td>
             <td>
@@ -67,7 +65,10 @@
         </tbody>
       </table>
     </div>
+    <div>
   </div>
 </body>
 
 </html>
+  );
+}

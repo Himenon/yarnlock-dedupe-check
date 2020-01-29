@@ -5,6 +5,12 @@
     "name": "Himenon",
     "url": "https://github.com/Himenon"
   },
+  "files": [
+    "lib",
+    "package.json",
+    "README.md",
+    "templates"
+  ],
   "main": "index.js",
   "license": "MIT",
   "scripts": {
@@ -17,6 +23,8 @@
     "@types/commander": "^2.12.2",
     "@types/node": "^13.5.0",
     "@types/prettier": "^1.19.0",
+    "@types/react": "^16.9.19",
+    "@types/react-dom": "^16.9.5",
     "prettier": "^1.19.1",
     "ts-node": "^8.6.2",
     "typescript": "^3.7.5",
@@ -24,6 +32,8 @@
   },
   "dependencies": {
     "commander": "^4.1.0",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
     "yarn-lockfile": "^1.1.1"
   }
 }

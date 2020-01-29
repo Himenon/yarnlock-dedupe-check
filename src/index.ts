@@ -5,16 +5,15 @@ import * as logger from "./logger";
 import * as lockfile from "@yarnpkg/lockfile";
 import * as factory from "./factory";
 import { uniq } from "./utils";
-import { MessageData } from "./message";
+import { CategorizedData, generateReport } from "./reporter";
 
 export const getParsedValue = (raw: string) => {
   return lockfile.parse(raw);
 }
 
-export const checkDeduplicateInstalledVersion = (obj: lockfile.YarnLockObject, checkPackageName: RegExp | undefined = undefined) => {
+export const generateCategorizedData = (obj: lockfile.YarnLockObject, checkPackageName: RegExp | undefined = undefined): CategorizedData => {
   const { installedStructure } = factory.generatePackageStructure({ type: "yarn", data: obj }, checkPackageName);
-  fs.writeFileSync("output/installedStructure.json", JSON.stringify(installedStructure, null , 2));
-  const messageData: MessageData = {
+  const categorizedData: CategorizedData = {
     errors: [],
     warning: [],
   };
@@ -26,29 +25,37 @@ export const checkDeduplicateInstalledVersion = (obj: lockfile.YarnLockObject, c
       const isCheckTarget: boolean = !!checkPackageName && !!packageName.match(checkPackageName);
       // 実際に利用しているバージョンが異なるものを複数もつ場合 かつ、チェック対象の場合
       if (realInstalledVersions.length > 1 && isCheckTarget) {
-        messageData.errors.push({
+        categorizedData.errors.push({
           name: packageName,
           data: Object.values(valueObject),
         });
       } else if (realInstalledVersions.length > 1) {
-        messageData.warning.push({
+        categorizedData.warning.push({
           name: packageName,
           data: Object.values(valueObject),
         });
       }
     }
-  })
-  fs.writeFileSync("output/result.json", JSON.stringify(messageData, null , 2));
+  });
+  return categorizedData;
 }
 
 const main = () => {
   const params = getInputParams();
   const raw = fs.readFileSync(params.inputYarnLockPath, "utf8");
   const parsedValue = getParsedValue(raw);
-  fs.mkdirSync(path.dirname(params.outputFilename), { recursive: true });
-  checkDeduplicateInstalledVersion(parsedValue.object, params.checkPattern ? new RegExp(params.checkPattern) : undefined);
-  fs.writeFileSync(params.outputFilename, JSON.stringify(parsedValue, null, 2));
-  logger.info(`Write: ${params.outputFilename}`);
+
+  const categorizedData = generateCategorizedData(parsedValue.object, params.checkPattern ? new RegExp(params.checkPattern) : undefined);
+  if (params.outputFilename) {
+    fs.mkdirSync(path.dirname(params.outputFilename), { recursive: true });
+    fs.writeFileSync(params.outputFilename, JSON.stringify(categorizedData, null, 2));
+    logger.info(`Write: ${params.outputFilename}`);
+  }
+  if (params.html) {
+    const reportHtml = generateReport(categorizedData);
+    fs.writeFileSync(params.html, reportHtml);
+    logger.info(`Write: ${params.html}`);
+  }
 }
 
 main();
