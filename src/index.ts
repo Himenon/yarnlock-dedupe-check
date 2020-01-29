@@ -6,6 +6,7 @@ import * as lockfile from "@yarnpkg/lockfile";
 import * as factory from "./factory";
 import { uniq } from "./utils";
 import { CategorizedData, generateReport } from "./reporter";
+import { check } from "./validator";
 
 export const getParsedValue = (raw: string) => {
   return lockfile.parse(raw);
@@ -55,6 +56,9 @@ const main = () => {
     const reportHtml = generateReport(categorizedData);
     fs.writeFileSync(params.html, reportHtml);
     logger.info(`Write: ${params.html}`);
+  }
+  if (params.check) {
+    check(categorizedData);
   }
 }
 

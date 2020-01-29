@@ -8,8 +8,7 @@
   "files": [
     "lib",
     "package.json",
-    "README.md",
-    "templates"
+    "README.md"
   ],
   "main": "index.js",
   "license": "MIT",
