@@ -13,7 +13,7 @@ export const getParsedValue = (raw: string) => {
 }
 
 export const generateCategorizedData = (obj: lockfile.YarnLockObject, checkPackageName: RegExp | undefined = undefined): CategorizedData => {
-  const { installedStructure } = factory.generatePackageStructure({ type: "yarn", data: obj }, checkPackageName);
+  const { installedPackage: installedStructure } = factory.generatePackageStructure({ type: "yarn", data: obj }, checkPackageName);
   const categorizedData: CategorizedData = {
     errors: [],
     warning: [],
@@ -28,12 +28,12 @@ export const generateCategorizedData = (obj: lockfile.YarnLockObject, checkPacka
       if (realInstalledVersions.length > 1 && isCheckTarget) {
         categorizedData.errors.push({
           name: packageName,
-          usingRelation: Object.values(valueObject),
+          dependencies: Object.values(valueObject),
         });
       } else if (realInstalledVersions.length > 1) {
         categorizedData.warning.push({
           name: packageName,
-          usingRelation: Object.values(valueObject),
+          dependencies: Object.values(valueObject),
         });
       }
     }

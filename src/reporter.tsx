@@ -1,12 +1,7 @@
 import * as React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { Report, ReportProps, RowProps, ColumnProps } from "./template/report";
-import { UsingRelation } from "./factory/types";
-
-export interface PackageData {
-  name: string;
-  usingRelation: UsingRelation[];
-}
+import { PackageData } from "./factory/types";
 
 export interface CategorizedData {
   warning: PackageData[];
@@ -15,14 +10,14 @@ export interface CategorizedData {
 
 const convertPackageDataToRow = (pkgData: PackageData): RowProps[] => {
   const packageRows: RowProps[] = [];
-  pkgData.usingRelation.forEach((relation) => {
-    if (relation.used.length > 0) {
-      relation.used.forEach((used) => {
-        const relationColumn: ColumnProps = { text: `${used.name}@${used.version}` };
-        packageRows.push({ columns: [{ text: pkgData.name }, { text: relation.realUsedVersion } , relationColumn] });
+  pkgData.dependencies.forEach((dependency) => {
+    if (dependency.usingPackages.length > 0) {
+      dependency.usingPackages.forEach((usingPkg) => {
+        const relationColumn: ColumnProps = { text: `${usingPkg.name}@${usingPkg.version}` };
+        packageRows.push({ columns: [{ text: pkgData.name }, { text: dependency.realUsedVersion } , relationColumn] });
       });
     } else {
-      packageRows.push({ columns: [{ text: pkgData.name }, { text: relation.realUsedVersion } , { text: "your application package.json or yarn.lock" }] });
+      packageRows.push({ columns: [{ text: pkgData.name }, { text: dependency.realUsedVersion } , { text: "your application package.json or yarn.lock" }] });
     }
   });
   return packageRows;

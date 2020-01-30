@@ -1,12 +1,19 @@
 import * as lockfile from "@yarnpkg/lockfile";
 import { parseConcatNameAndVersionString } from "../parser";
-import { PackageBasicPairData, DisplayPackageData, InstalledStructure, PackageStructure } from "./types";
+import { PurePackageData, DisplayPackageData, InstalledPackage, PackageStructure } from "./types";
 import { uniq } from "../utils";
 
 export type OriginData = lockfile.YarnLockObject;
 
-export const generateUsed = ({ name, version }: PackageBasicPairData, obj: OriginData): PackageBasicPairData[] => {
-  return Object.entries(obj).reduce<PackageBasicPairData[]>((used, [packageName, value]) => {
+interface DependencyItem extends PurePackageData {
+  realVersion: string;
+  used: PurePackageData[];
+  ignore: boolean;
+  rootLibrary: "unknown" | boolean;
+}
+
+export const generateUsed = ({ name, version }: PurePackageData, obj: OriginData): PurePackageData[] => {
+  return Object.entries(obj).reduce<PurePackageData[]>((used, [packageName, value]) => {
     // dependenciesに指定したバージョンのライブラリが含まれているかどうか
     const hasDependency = Object.entries(value.dependencies || {}).find(([depName, depVersion]) => depName === name && depVersion === version);
     if (hasDependency) {
@@ -18,13 +25,14 @@ export const generateUsed = ({ name, version }: PackageBasicPairData, obj: Origi
 
 export const generateDisplayPackageData = (obj: OriginData, checkPackageName: RegExp | undefined = undefined): PackageStructure => {
   const packageNameList: string[] = [];
-  const dataSet = Object.entries(obj).map(([key, value]) => {
-    const packageBasicPairData = parseConcatNameAndVersionString(key);
-    const ignore: boolean = !!checkPackageName && !packageBasicPairData.name.match(checkPackageName);
-    const used = ignore ? [] : generateUsed(packageBasicPairData, obj);
-    packageNameList.push(packageBasicPairData.name);
+
+  const dataSet: DependencyItem[] = Object.entries(obj).map(([key, value]) => {
+    const purePackageData = parseConcatNameAndVersionString(key);
+    const ignore: boolean = !!checkPackageName && !purePackageData.name.match(checkPackageName);
+    const used = ignore ? [] : generateUsed(purePackageData, obj);
+    packageNameList.push(purePackageData.name);
     return {
-      ...packageBasicPairData,
+      ...purePackageData,
       realVersion: value.version,
       used,
       ignore,
@@ -32,12 +40,12 @@ export const generateDisplayPackageData = (obj: OriginData, checkPackageName: Re
     }
   });
 
-  const installedStructure = uniq(packageNameList).reduce<InstalledStructure>((structure, packageName) => {
-    dataSet.filter(data => data.name === packageName).forEach(d => {
+  const installedPackage = uniq(packageNameList).reduce<InstalledPackage>((structure, packageName) => {
+    dataSet.filter(data => data.name === packageName).forEach(item => {
       const newDisplayPackageData: DisplayPackageData = {
-        [d.version]: {
-          realUsedVersion: d.realVersion,
-          used: d.used,
+        [item.version]: {
+          realUsedVersion: item.realVersion,
+          usingPackages: item.used,
         }
       }
       structure[packageName] = {
@@ -49,6 +57,6 @@ export const generateDisplayPackageData = (obj: OriginData, checkPackageName: Re
   }, {});
 
   return {
-    installedStructure
+    installedPackage,
   };
 }

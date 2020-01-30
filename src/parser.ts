@@ -1,9 +1,9 @@
-import { PackageBasicPairData } from "./types";
+import { PurePackageData } from "./types";
 
 /**
  * @example raw @pkg1/hoge@^1.2.3
  */
-export const parseConcatNameAndVersionString = (raw: string): PackageBasicPairData => {
+export const parseConcatNameAndVersionString = (raw: string): PurePackageData => {
   const values = raw.split("@");
   if (values.length == 2) {
     return {

@@ -1,4 +1,4 @@
-export interface PackageBasicPairData {
+export interface PurePackageData {
   name: string;
   version: string;
 }

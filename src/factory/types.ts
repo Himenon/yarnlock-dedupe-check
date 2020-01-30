@@ -1,20 +1,25 @@
-import { PackageBasicPairData } from "../types";
+import { PurePackageData } from "../types";
 
-export { PackageBasicPairData };
+export { PurePackageData };
 
-export interface UsingRelation {
+export interface Dependency {
   realUsedVersion: string;
-  used: PackageBasicPairData[];
+  usingPackages: PurePackageData[];
 }
 
 export interface DisplayPackageData {
-  [displayVersion: string]: UsingRelation;
+  [displayVersion: string]: Dependency;
 }
 
-export interface InstalledStructure {
+export interface InstalledPackage {
   [displayName: string]: DisplayPackageData | undefined;
 }
 
 export interface PackageStructure {
-  installedStructure: InstalledStructure;
+  installedPackage: InstalledPackage;
+}
+
+export interface PackageData {
+  name: string;
+  dependencies: Dependency[];
 }
