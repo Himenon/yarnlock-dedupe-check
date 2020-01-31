@@ -6,6 +6,13 @@
     "name": "Himenon",
     "url": "https://github.com/Himenon"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Himenon/node-libcheck.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Himenon/node-libcheck/issues"
+  },
   "bin": "./output/",
   "files": [
     "bin",
