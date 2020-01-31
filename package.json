@@ -1,6 +1,6 @@
 {
   "name": "libcheck",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Check the health of npm libraries installed with yarn or npm.",
   "author": {
     "name": "Himenon",
