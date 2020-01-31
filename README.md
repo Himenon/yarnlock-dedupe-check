@@ -18,7 +18,7 @@ yarn add -D libcheck
 libcheck --input ./yarn.lock --html ./report.html --pattern "[namespace]"
 ```
 
-DEMO: https://himenon.github.io/node-libcheck/
+DEMO: https://himenon.github.io/node-libcheck/index.html
 
 ### Generate JSON
 
