@@ -5,7 +5,6 @@ import Glob from "glob";
 
 export interface Found {
   [path: string]: {
-    packageName: string | undefined;
     data: PackageJson;
   }
 }
@@ -25,7 +24,6 @@ export const findPackageJson = (baseDir: string, ignore: string[] = ["**/node_mo
     const pkg = getPackageJson(packageJsonPath);
     if (pkg) {
       found[packageJsonPath] = {
-        packageName: pkg.name,
         data: pkg,
       }
     }

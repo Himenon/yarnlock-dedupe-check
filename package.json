@@ -1,11 +1,14 @@
 {
-  "name": "installed-library-checker",
+  "name": "libcheck",
   "version": "1.0.0",
+  "description": "Check the health of npm libraries installed with yarn or npm.",
   "author": {
     "name": "Himenon",
     "url": "https://github.com/Himenon"
   },
+  "bin": "./output/",
   "files": [
+    "bin",
     "lib",
     "package.json",
     "README.md"

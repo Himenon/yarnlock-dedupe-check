@@ -1,8 +1,9 @@
 import commander from "commander";
+const pkg = require("../package.json");
 
 export interface InputParams {
   inputLockFile: string;
-  outputFilename: string | undefined;
+  jsonFileName: string | undefined;
   check: boolean;
   checkPattern: string | undefined;
   html: string | undefined;
@@ -10,8 +11,10 @@ export interface InputParams {
 
 export const getInputParams = (): InputParams => {
   commander
+    .version(pkg.version)
+    .description(pkg.description)
     .option("-i --input <yarn.lock>", "input yarn.lock file")
-    .option("-o --output <output.json>", "output filename.")
+    .option("--json <output.json>", "output filename.")
     .option("--html <output.html>", "output html filename.")
     .option("-p --pattern <check pattern>", "pattern")
     .option("--check", "flag")
@@ -19,7 +22,7 @@ export const getInputParams = (): InputParams => {
 
   return {
     inputLockFile: commander["input"],
-    outputFilename: commander["output"],
+    jsonFileName: commander["json"],
     checkPattern: commander["pattern"],
     html: commander["html"],
     check: !!commander["check"],

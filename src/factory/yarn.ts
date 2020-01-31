@@ -7,7 +7,7 @@ export type OriginData = lockfile.YarnLockObject;
 
 interface DependencyItem extends PurePackageData {
   realVersion: string;
-  used: PurePackageData[];
+  usingPackages: PurePackageData[];
   ignore: boolean;
   rootLibrary: "unknown" | boolean;
 }
@@ -29,14 +29,14 @@ export const generateDisplayPackageData = (obj: OriginData, checkPackageName: Re
   const dataSet: DependencyItem[] = Object.entries(obj).map(([key, value]) => {
     const purePackageData = parseConcatNameAndVersionString(key);
     const ignore: boolean = !!checkPackageName && !purePackageData.name.match(checkPackageName);
-    const used = ignore ? [] : generateUsed(purePackageData, obj);
+    const usingPackages = ignore ? [] : generateUsed(purePackageData, obj);
     packageNameList.push(purePackageData.name);
     return {
       ...purePackageData,
       realVersion: value.version,
-      used,
+      usingPackages,
       ignore,
-      rootLibrary: ignore ? "unknown" : used.length === 0,
+      rootLibrary: ignore ? "unknown" : usingPackages.length === 0,
     }
   });
 
@@ -45,7 +45,7 @@ export const generateDisplayPackageData = (obj: OriginData, checkPackageName: Re
       const newDisplayPackageData: DisplayPackageData = {
         [item.version]: {
           realUsedVersion: item.realVersion,
-          usingPackages: item.used,
+          usingPackages: item.usingPackages,
         }
       }
       structure[packageName] = {

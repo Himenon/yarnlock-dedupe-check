@@ -18,6 +18,10 @@ export const validate = (data: CategorizedData) => {
       })
     });
   });
+  if (data.warning.length > 0) {
+    logger.info("");
+    logger.info(chalk.bgYellow(chalk.black(" Warning ")) + ` Multi version included.`);
+  }
   if (data.errors.length > 0) {
     logger.info("");
     logger.info(chalk.red("Failed") + ` Multi version included.`);

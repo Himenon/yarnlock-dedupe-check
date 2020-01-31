@@ -15,12 +15,12 @@ export const getParsedValue = (lockfilePath: string) => {
 }
 
 export const generateCategorizedData = (obj: lockfile.YarnLockObject, found: Found, checkPackageName: RegExp | undefined = undefined): CategorizedData => {
-  const { installedPackage: installedStructure } = factory.generatePackageStructure({ type: "yarn", data: obj }, found, checkPackageName);
+  const { installedPackage } = factory.generatePackageStructure({ type: "yarn", data: obj }, found, checkPackageName);
   const categorizedData: CategorizedData = {
     errors: [],
     warning: [],
   };
-  Object.entries(installedStructure).forEach(([packageName, value]) => {
+  Object.entries(installedPackage).forEach(([packageName, value]) => {
     // TODO exclude "|| {}""
     if (Object.keys(value || {}).length > 1) {
       const valueObject = value || {};
@@ -49,11 +49,11 @@ const main = () => {
   const found = findPackageJson(path.dirname(params.inputLockFile));
 
   const categorizedData = generateCategorizedData(parsedValue.object, found, params.checkPattern ? new RegExp(params.checkPattern) : undefined);
-  if (params.outputFilename) {
-    fs.mkdirSync(path.dirname(params.outputFilename), { recursive: true });
-    fs.writeFileSync(params.outputFilename, JSON.stringify(categorizedData, null, 2));
+  if (params.jsonFileName) {
+    fs.mkdirSync(path.dirname(params.jsonFileName), { recursive: true });
+    fs.writeFileSync(params.jsonFileName, JSON.stringify(categorizedData, null, 2));
     logger.info("");
-    logger.info(`Generate JSON File: ${params.outputFilename}`);
+    logger.info(`Generate JSON File: ${params.jsonFileName}`);
   }
   if (params.html) {
     const reportHtml = generateReport(categorizedData);
@@ -64,6 +64,8 @@ const main = () => {
   if (params.check) {
     validate(categorizedData);
   }
+  logger.info("");
+  logger.info("libcheck Done.");
 }
 
 main();

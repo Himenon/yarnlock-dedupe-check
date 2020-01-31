@@ -11,10 +11,10 @@ export type CheckPackagePattern = RegExp | undefined;
 
 const foundDataToYarnLockObject = (found: Found): Yarn.OriginData => {
   return Object.values(found).reduce<Yarn.OriginData>((data, pkg) => {
-    if (pkg.packageName && pkg.data.version) {
-      data[pkg.packageName] = {
+    if (pkg.data.name && pkg.data.version) {
+      data[`${pkg.data.name}@${pkg.data.version}`] = {
         version: pkg.data.version,
-        dependencies: pkg.data.dependencies,
+        dependencies: { ...pkg.data.dependencies, ...pkg.data.devDependencies },
       }
     }
     return data;

@@ -14,10 +14,10 @@ const convertPackageDataToRow = (pkgData: PackageData): RowProps[] => {
     if (dependency.usingPackages.length > 0) {
       dependency.usingPackages.forEach((usingPkg) => {
         const relationColumn: ColumnProps = { text: `${usingPkg.name}@${usingPkg.version}` };
-        packageRows.push({ columns: [{ text: pkgData.name }, { text: dependency.realUsedVersion } , relationColumn] });
+        packageRows.push({ columns: [{ text: pkgData.name }, { text: dependency.realUsedVersion }, relationColumn] });
       });
     } else {
-      packageRows.push({ columns: [{ text: pkgData.name }, { text: dependency.realUsedVersion } , { text: "your application package.json or yarn.lock" }] });
+      packageRows.push({ columns: [{ text: pkgData.name }, { text: dependency.realUsedVersion }, { text: "skip search" }] });
     }
   });
   return packageRows;
