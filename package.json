@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "@types/commander": "^2.12.2",
+    "@types/glob": "^7.1.1",
     "@types/jest": "^25.1.1",
     "@types/node": "^13.5.0",
     "@types/prettier": "^1.19.0",
@@ -30,12 +31,14 @@
     "prettier": "^1.19.1",
     "ts-jest": "^25.0.0",
     "ts-node": "^8.6.2",
+    "type-fest": "^0.9.0",
     "typescript": "^3.7.5",
     "yarn-deduplicate": "^1.1.1"
   },
   "dependencies": {
     "chalk": "^3.0.0",
     "commander": "^4.1.0",
+    "glob": "^7.1.6",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "yarn-lockfile": "^1.1.1"

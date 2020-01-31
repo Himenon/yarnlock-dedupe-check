@@ -2,8 +2,8 @@ declare module "@yarnpkg/lockfile" {
   export interface YarnLockObject {
     [packageName: string]: {
       version: string;
-      resolved: string;
-      integrity: string;
+      // resolved: string; // not necessary
+      // integrity: string; // not necessary
       dependencies?: {
         [key: string]: string;
       };

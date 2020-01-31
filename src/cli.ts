@@ -1,7 +1,7 @@
 import commander from "commander";
 
 export interface InputParams {
-  inputYarnLockPath: string;
+  inputLockFile: string;
   outputFilename: string | undefined;
   check: boolean;
   checkPattern: string | undefined;
@@ -18,7 +18,7 @@ export const getInputParams = (): InputParams => {
     .parse(process.argv);
 
   return {
-    inputYarnLockPath: commander["input"],
+    inputLockFile: commander["input"],
     outputFilename: commander["output"],
     checkPattern: commander["pattern"],
     html: commander["html"],

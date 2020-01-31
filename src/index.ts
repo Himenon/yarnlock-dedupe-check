@@ -7,13 +7,15 @@ import * as factory from "./factory";
 import { uniq } from "./utils";
 import { CategorizedData, generateReport } from "./reporter";
 import { validate } from "./validator";
+import { findPackageJson, Found } from "./findPackageJson";
 
-export const getParsedValue = (raw: string) => {
+export const getParsedValue = (lockfilePath: string) => {
+  const raw = fs.readFileSync(lockfilePath, "utf8");
   return lockfile.parse(raw);
 }
 
-export const generateCategorizedData = (obj: lockfile.YarnLockObject, checkPackageName: RegExp | undefined = undefined): CategorizedData => {
-  const { installedPackage: installedStructure } = factory.generatePackageStructure({ type: "yarn", data: obj }, checkPackageName);
+export const generateCategorizedData = (obj: lockfile.YarnLockObject, found: Found, checkPackageName: RegExp | undefined = undefined): CategorizedData => {
+  const { installedPackage: installedStructure } = factory.generatePackageStructure({ type: "yarn", data: obj }, found, checkPackageName);
   const categorizedData: CategorizedData = {
     errors: [],
     warning: [],
@@ -43,19 +45,21 @@ export const generateCategorizedData = (obj: lockfile.YarnLockObject, checkPacka
 
 const main = () => {
   const params = getInputParams();
-  const raw = fs.readFileSync(params.inputYarnLockPath, "utf8");
-  const parsedValue = getParsedValue(raw);
+  const parsedValue = getParsedValue(params.inputLockFile);
+  const found = findPackageJson(path.dirname(params.inputLockFile));
 
-  const categorizedData = generateCategorizedData(parsedValue.object, params.checkPattern ? new RegExp(params.checkPattern) : undefined);
+  const categorizedData = generateCategorizedData(parsedValue.object, found, params.checkPattern ? new RegExp(params.checkPattern) : undefined);
   if (params.outputFilename) {
     fs.mkdirSync(path.dirname(params.outputFilename), { recursive: true });
     fs.writeFileSync(params.outputFilename, JSON.stringify(categorizedData, null, 2));
-    logger.info(`Write: ${params.outputFilename}`);
+    logger.info("");
+    logger.info(`Generate JSON File: ${params.outputFilename}`);
   }
   if (params.html) {
     const reportHtml = generateReport(categorizedData);
     fs.writeFileSync(params.html, reportHtml);
-    logger.info(`Write: ${params.html}`);
+    logger.info("");
+    logger.info(`Generate HTML: ${params.html}`);
   }
   if (params.check) {
     validate(categorizedData);
