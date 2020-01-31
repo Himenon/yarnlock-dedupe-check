@@ -1,7 +1,7 @@
 import { CategorizedData } from "./reporter";
 import chalk from "chalk";
 
-export const check = (data: CategorizedData) => {
+export const validate = (data: CategorizedData) => {
   data.errors.forEach(errorPkg => {
     errorPkg.dependencies.forEach(relation => {
       relation.usingPackages.map(used => {
@@ -17,6 +17,11 @@ export const check = (data: CategorizedData) => {
     });
   });
   if (data.errors.length > 0) {
+    console.info("");
+    console.info(chalk.red("Failed") + ` Multi version included.`);
     process.exit(1);
+  } else {
+    console.info("");
+    console.info(chalk.green("Success"));
   }
 }
