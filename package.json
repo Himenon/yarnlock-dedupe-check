@@ -23,11 +23,10 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "postinstall": "yarn-deduplicate",
     "start": "node ./lib/index.js --input ./yarn.lock --output ./output/parsed.json",
     "ts": "ts-node -P ./tsconfig.json",
     "build": "tsc -b tsconfig.json",
-    "test": "jest"
+    "test": "jest && yarn-deduplicate"
   },
   "devDependencies": {
     "@types/commander": "^2.12.2",
