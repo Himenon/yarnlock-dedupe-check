@@ -12,11 +12,13 @@ yarn add -D libcheck
 
 ## Usage
 
-### Generate report
+### Generate HTML report
 
 ```bash
 libcheck --input ./yarn.lock --html ./report.html --pattern "[namespace]"
 ```
+
+DEMO: https://himenon.github.io/node-libcheck/
 
 ### Generate JSON
 

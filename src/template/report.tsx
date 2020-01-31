@@ -41,7 +41,7 @@ export const Report = ({ errorRows, warningRows }: ReportProps) => {
           name="viewport"
           content="width=device-width, initial-scale=1, viewport-fit=cover"
         />
-        <title>yarn.lock checker report</title>
+        <title>Library Check Report</title>
         <link
           rel="stylesheet"
           type="text/css"
