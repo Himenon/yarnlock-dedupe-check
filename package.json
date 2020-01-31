@@ -13,7 +13,9 @@
   "bugs": {
     "url": "https://github.com/Himenon/node-libcheck/issues"
   },
-  "bin": "./output/",
+  "bin": {
+    "libcheck": "./bin/libcheck.js"
+  },
   "files": [
     "bin",
     "lib",
