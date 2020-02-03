@@ -28,7 +28,7 @@
     "start": "node ./lib/index.js --input ./yarn.lock --output ./output/parsed.json",
     "ts": "ts-node -P ./tsconfig.json",
     "build": "tsc -b tsconfig.json",
-    "test": "jest && yarn-deduplicate"
+    "test": "yarn-deduplicate --fail"
   },
   "devDependencies": {
     "@types/commander": "^2.12.2",
