@@ -5,7 +5,7 @@ declare module "@yarnpkg/lockfile" {
       // resolved: string; // not necessary
       // integrity: string; // not necessary
       dependencies?: {
-        [key: string]: string;
+        [packageName: string]: string; // value is version
       };
     }
   }

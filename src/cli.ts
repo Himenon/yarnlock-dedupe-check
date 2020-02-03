@@ -1,7 +1,9 @@
+import * as path from "path";
 import commander from "commander";
 const pkg = require("../package.json");
 
 export interface InputParams {
+  type: "npm" | "yarn";
   inputLockFile: string;
   jsonFileName: string | undefined;
   test: boolean;
@@ -21,6 +23,7 @@ export const getInputParams = (): InputParams => {
     .parse(process.argv);
 
   return {
+    type: path.basename(commander["input"]) === "yarn.lock" ? "yarn" : "npm",
     inputLockFile: commander["input"],
     jsonFileName: commander["json"],
     checkPattern: commander["pattern"],
