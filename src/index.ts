@@ -18,8 +18,9 @@ export const generateCategorizedData = (
   obj: lockfile.YarnLockObject,
   found: Found,
   checkPackageName: RegExp | undefined = undefined,
+  testSkipPattern: RegExp | undefined = undefined,
 ): CategorizedData => {
-  const { installedPackage } = factory.generatePackageStructure({ type: "yarn", data: obj }, found, checkPackageName);
+  const { installedPackage } = factory.generatePackageStructure({ type: "yarn", data: obj }, found, checkPackageName, testSkipPattern);
   const categorizedData: CategorizedData = {
     errors: [],
     warning: [],
@@ -52,7 +53,12 @@ const main = async () => {
   const parsedValue = getParsedValue(params.inputLockFile);
   const found = findPackageJson(path.dirname(params.inputLockFile));
 
-  const categorizedData = generateCategorizedData(parsedValue.object, found, params.checkPattern ? new RegExp(params.checkPattern) : undefined);
+  const categorizedData = generateCategorizedData(
+    parsedValue.object,
+    found,
+    params.checkPattern ? new RegExp(params.checkPattern) : undefined,
+    params.testSkipPattern ? new RegExp(params.testSkipPattern) : undefined,
+  );
   if (params.jsonFileName) {
     fs.mkdirSync(path.dirname(params.jsonFileName), { recursive: true });
     fs.writeFileSync(params.jsonFileName, JSON.stringify(categorizedData, null, 2));

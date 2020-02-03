@@ -16,7 +16,8 @@ export const validate = (data: CategorizedData) => {
     warningPkg.dependencies.forEach(relation => {
       relation.usingPackages.map(used => {
         logger.info(
-          chalk.yellow("Warning") + " " +
+          chalk.yellow("Warning") +
+            " " +
             messageFormat({ name: warningPkg.name, version: relation.realUsedVersion }, { name: used.name, version: used.version }),
         );
         if (!result.includeWarning) {
