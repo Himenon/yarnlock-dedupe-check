@@ -6,6 +6,7 @@ export interface InputParams {
   jsonFileName: string | undefined;
   test: boolean;
   checkPattern: string | undefined;
+  testSkipPattern: string | undefined;
   html: string | undefined;
 }
 
@@ -16,7 +17,8 @@ export const getInputParams = (): InputParams => {
     .option("-i --input <yarn.lock>", "input yarn.lock file")
     .option("--json <output.json>", "output filename.")
     .option("--html <output.html>", "output html filename.")
-    .option("-p --pattern <check pattern>", "pattern")
+    .option("-p --pattern <regex>", "test target pattern")
+    .option("--skip <regex>", "skip regex pattern")
     .option("--test", "flag")
     .parse(process.argv);
 
@@ -24,6 +26,7 @@ export const getInputParams = (): InputParams => {
     inputLockFile: commander["input"],
     jsonFileName: commander["json"],
     checkPattern: commander["pattern"],
+    testSkipPattern: commander["skip"],
     html: commander["html"],
     test: !!commander["test"],
   };

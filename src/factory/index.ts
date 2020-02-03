@@ -25,10 +25,11 @@ export const generatePackageStructure = (
   { type, data }: OriginData,
   found: Found,
   checkPattern: CheckPackagePattern = undefined,
+  testSkipPattern: CheckPackagePattern = undefined,
 ): PackageStructure => {
   if (type === "yarn") {
     const convertedData = foundDataToYarnLockObject(found);
-    return Yarn.generateDisplayPackageData({ ...data, ...convertedData }, checkPattern);
+    return Yarn.generateDisplayPackageData({ ...data, ...convertedData }, checkPattern, testSkipPattern);
   }
   throw new Error("Please choice type 'yarn' or 'npm'");
 };

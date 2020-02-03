@@ -23,20 +23,22 @@ export const generateUsed = ({ name, version }: PurePackageData, obj: OriginData
   }, []);
 };
 
-export const generateDisplayPackageData = (obj: OriginData, checkPackageName: RegExp | undefined = undefined): PackageStructure => {
+export const generateDisplayPackageData = (obj: OriginData, checkPackageName: RegExp | undefined = undefined, testSkipPattern: RegExp | undefined = undefined): PackageStructure => {
   const packageNameList: string[] = [];
 
   const dataSet: DependencyItem[] = Object.entries(obj).map(([key, value]) => {
     const purePackageData = parseConcatNameAndVersionString(key);
-    const ignore: boolean = !!checkPackageName && !purePackageData.name.match(checkPackageName);
-    const usingPackages = ignore ? [] : generateUsed(purePackageData, obj);
+    const isSkipTarget: boolean = !!testSkipPattern && !!purePackageData.name.match(testSkipPattern);
+    const isIgnoreTarget: boolean = !!checkPackageName && !purePackageData.name.match(checkPackageName);
+    const isCheckLibrary = isSkipTarget ? false : !isIgnoreTarget;
+    const usingPackages = isCheckLibrary ? generateUsed(purePackageData, obj) : [];
     packageNameList.push(purePackageData.name);
     return {
       ...purePackageData,
       realVersion: value.version,
       usingPackages,
-      ignore,
-      rootLibrary: ignore ? "unknown" : usingPackages.length === 0,
+      ignore: !isCheckLibrary,
+      rootLibrary: isCheckLibrary ? usingPackages.length === 0 : "unknown",
     };
   });
 
