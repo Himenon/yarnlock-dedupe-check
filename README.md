@@ -30,8 +30,13 @@ libcheck --input ./yarn.lock --html ./report.html --pattern "[String RegExp]"
 ### Test
 
 ```bash
-libcheck --input ./yarn.lock --pattern "[namespace]" --test
+libcheck --input ./yarn.lock --pattern "[String RegExp]" --test
 ```
+
+### Select target
+
+* `--pattern` : test target (JS RegExp)
+* `--skip`    : test skip target (JS RegExp)
 
 ## TODO
 
