@@ -29,7 +29,8 @@
     "ts": "ts-node -P ./tsconfig.json",
     "build": "tsc -b tsconfig.json",
     "format": "prettier --write \"src/**/*.{ts,tsx}\"",
-    "test": "yarn-deduplicate --fail"
+    "test": "yarn-deduplicate --fail",
+    "gen:html": "node ./lib/index.js --input yarn.lock --html docs/index.html"
   },
   "devDependencies": {
     "@types/commander": "^2.12.2",

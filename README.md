@@ -3,6 +3,7 @@
 Check the following.
 
 * [x] Multi version installed.
+* [x] Monorepo
 
 ## Install
 
@@ -18,7 +19,7 @@ yarn add -D libcheck
 libcheck --input ./yarn.lock --html ./report.html --pattern "[String RegExp]"
 ```
 
-DEMO: https://himenon.github.io/node-libcheck/index.html
+DEMO: https://himenon.github.io/node-libcheck/
 
 ### Generate JSON
 

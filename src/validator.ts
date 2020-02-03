@@ -12,6 +12,19 @@ export const validate = (data: CategorizedData) => {
     includeError: false,
   };
   logger.info("");
+  data.warning.forEach(warningPkg => {
+    warningPkg.dependencies.forEach(relation => {
+      relation.usingPackages.map(used => {
+        logger.info(
+          chalk.yellow("Warning") + " " +
+            messageFormat({ name: warningPkg.name, version: relation.realUsedVersion }, { name: used.name, version: used.version }),
+        );
+        if (!result.includeWarning) {
+          result.includeWarning = true;
+        }
+      });
+    });
+  });
   data.errors.forEach(errorPkg => {
     errorPkg.dependencies.forEach(relation => {
       relation.usingPackages.map(used => {
@@ -22,19 +35,6 @@ export const validate = (data: CategorizedData) => {
         );
         if (!result.includeError) {
           result.includeError = true;
-        }
-      });
-    });
-  });
-  data.warning.forEach(warningPkg => {
-    warningPkg.dependencies.forEach(relation => {
-      relation.usingPackages.map(used => {
-        logger.info(
-          chalk.yellow("Warning") + " " +
-            messageFormat({ name: warningPkg.name, version: relation.realUsedVersion }, { name: used.name, version: used.version }),
-        );
-        if (!result.includeWarning) {
-          result.includeWarning = true;
         }
       });
     });
