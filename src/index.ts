@@ -12,9 +12,13 @@ import { findPackageJson, Found } from "./findPackageJson";
 export const getParsedValue = (lockfilePath: string) => {
   const raw = fs.readFileSync(lockfilePath, "utf8");
   return lockfile.parse(raw);
-}
+};
 
-export const generateCategorizedData = (obj: lockfile.YarnLockObject, found: Found, checkPackageName: RegExp | undefined = undefined): CategorizedData => {
+export const generateCategorizedData = (
+  obj: lockfile.YarnLockObject,
+  found: Found,
+  checkPackageName: RegExp | undefined = undefined,
+): CategorizedData => {
   const { installedPackage } = factory.generatePackageStructure({ type: "yarn", data: obj }, found, checkPackageName);
   const categorizedData: CategorizedData = {
     errors: [],
@@ -41,9 +45,9 @@ export const generateCategorizedData = (obj: lockfile.YarnLockObject, found: Fou
     }
   });
   return categorizedData;
-}
+};
 
-const main = () => {
+const main = async () => {
   const params = getInputParams();
   const parsedValue = getParsedValue(params.inputLockFile);
   const found = findPackageJson(path.dirname(params.inputLockFile));
@@ -61,11 +65,18 @@ const main = () => {
     logger.info("");
     logger.info(`Generate HTML: ${params.html}`);
   }
-  if (params.check) {
+  if (params.test) {
     validate(categorizedData);
   }
-  logger.info("");
-  logger.info("libcheck Done.");
-}
+};
 
-main();
+main()
+  .then(() => {
+    logger.info("");
+    logger.info("libcheck Done.");
+    process.exit(0);
+  })
+  .catch(error => {
+    console.error(error);
+    process.exit(1);
+  });

@@ -21,7 +21,7 @@ export const generateUsed = ({ name, version }: PurePackageData, obj: OriginData
     }
     return used;
   }, []);
-}
+};
 
 export const generateDisplayPackageData = (obj: OriginData, checkPackageName: RegExp | undefined = undefined): PackageStructure => {
   const packageNameList: string[] = [];
@@ -37,26 +37,28 @@ export const generateDisplayPackageData = (obj: OriginData, checkPackageName: Re
       usingPackages,
       ignore,
       rootLibrary: ignore ? "unknown" : usingPackages.length === 0,
-    }
+    };
   });
 
   const installedPackage = uniq(packageNameList).reduce<InstalledPackage>((structure, packageName) => {
-    dataSet.filter(data => data.name === packageName).forEach(item => {
-      const newDisplayPackageData: DisplayPackageData = {
-        [item.version]: {
-          realUsedVersion: item.realVersion,
-          usingPackages: item.usingPackages,
-        }
-      }
-      structure[packageName] = {
-        ...(structure[packageName] || {}),
-        ...newDisplayPackageData,
-      };;
-    })
+    dataSet
+      .filter(data => data.name === packageName)
+      .forEach(item => {
+        const newDisplayPackageData: DisplayPackageData = {
+          [item.version]: {
+            realUsedVersion: item.realVersion,
+            usingPackages: item.usingPackages,
+          },
+        };
+        structure[packageName] = {
+          ...(structure[packageName] || {}),
+          ...newDisplayPackageData,
+        };
+      });
     return structure;
   }, {});
 
   return {
     installedPackage,
   };
-}
+};

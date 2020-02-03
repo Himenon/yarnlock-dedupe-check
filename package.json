@@ -28,6 +28,7 @@
     "start": "node ./lib/index.js --input ./yarn.lock --output ./output/parsed.json",
     "ts": "ts-node -P ./tsconfig.json",
     "build": "tsc -b tsconfig.json",
+    "format": "prettier --write \"src/**/*.{ts,tsx}\"",
     "test": "yarn-deduplicate --fail"
   },
   "devDependencies": {

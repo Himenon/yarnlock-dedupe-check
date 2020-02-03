@@ -10,9 +10,9 @@ export interface CategorizedData {
 
 const convertPackageDataToRow = (pkgData: PackageData): RowProps[] => {
   const packageRows: RowProps[] = [];
-  pkgData.dependencies.forEach((dependency) => {
+  pkgData.dependencies.forEach(dependency => {
     if (dependency.usingPackages.length > 0) {
-      dependency.usingPackages.forEach((usingPkg) => {
+      dependency.usingPackages.forEach(usingPkg => {
         const relationColumn: ColumnProps = { text: `${usingPkg.name}@${usingPkg.version}` };
         packageRows.push({ columns: [{ text: pkgData.name }, { text: dependency.realUsedVersion }, relationColumn] });
       });
@@ -21,7 +21,7 @@ const convertPackageDataToRow = (pkgData: PackageData): RowProps[] => {
     }
   });
   return packageRows;
-}
+};
 
 const convertReportProps = (categorizedData: CategorizedData): ReportProps => {
   const errorRowsList: RowProps[][] = categorizedData.errors.map(convertPackageDataToRow);

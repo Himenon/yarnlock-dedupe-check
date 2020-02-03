@@ -5,7 +5,7 @@ import { Found } from "../findPackageJson";
 export type OriginData = {
   type: "yarn";
   data: Yarn.OriginData;
-}
+};
 
 export type CheckPackagePattern = RegExp | undefined;
 
@@ -15,16 +15,20 @@ const foundDataToYarnLockObject = (found: Found): Yarn.OriginData => {
       data[`${pkg.data.name}@${pkg.data.version}`] = {
         version: pkg.data.version,
         dependencies: { ...pkg.data.dependencies, ...pkg.data.devDependencies },
-      }
+      };
     }
     return data;
   }, {});
-}
+};
 
-export const generatePackageStructure = ({ type, data }: OriginData, found: Found, checkPattern: CheckPackagePattern = undefined): PackageStructure => {
+export const generatePackageStructure = (
+  { type, data }: OriginData,
+  found: Found,
+  checkPattern: CheckPackagePattern = undefined,
+): PackageStructure => {
   if (type === "yarn") {
     const convertedData = foundDataToYarnLockObject(found);
     return Yarn.generateDisplayPackageData({ ...data, ...convertedData }, checkPattern);
   }
   throw new Error("Please choice type 'yarn' or 'npm'");
-}
+};

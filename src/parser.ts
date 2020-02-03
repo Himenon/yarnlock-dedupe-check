@@ -9,11 +9,11 @@ export const parseConcatNameAndVersionString = (raw: string): PurePackageData =>
     return {
       name: values[0],
       version: values[1],
-    }
+    };
   } else {
     return {
       name: `@${values[1]}`,
       version: values[2],
-    }
+    };
   }
-}
+};

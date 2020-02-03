@@ -6,7 +6,7 @@ import Glob from "glob";
 export interface Found {
   [path: string]: {
     data: PackageJson;
-  }
+  };
 }
 
 const getPackageJson = (filename: string): PackageJson | undefined => {
@@ -16,7 +16,7 @@ const getPackageJson = (filename: string): PackageJson | undefined => {
     console.error(error);
     return undefined;
   }
-}
+};
 
 export const findPackageJson = (baseDir: string, ignore: string[] = ["**/node_modules/**"]): Found => {
   const searchPatternString = path.join(baseDir, "**", "package.json");
@@ -25,8 +25,8 @@ export const findPackageJson = (baseDir: string, ignore: string[] = ["**/node_mo
     if (pkg) {
       found[packageJsonPath] = {
         data: pkg,
-      }
+      };
     }
     return found;
   }, {});
-}
+};
