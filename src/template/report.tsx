@@ -1,4 +1,4 @@
-import * as React from "react";
+import { h, Component } from "preact";
 
 export interface ColumnProps {
   rowSpan?: number;

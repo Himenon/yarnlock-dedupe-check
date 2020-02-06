@@ -9,6 +9,7 @@
     "rootDir": "./src",
     "baseUrl": ".",
     "jsx": "react",
+    "jsxFactory": "h",
     "resolveJsonModule": true 
   },
   "include": ["src", "./types/**/*.ts"],

@@ -1,5 +1,5 @@
-import * as React from "react";
-import { renderToStaticMarkup } from "react-dom/server";
+import { h, Component } from 'preact';
+import { render } from "preact-render-to-string";
 import { Report, ReportProps, RowProps, ColumnProps } from "./template/report";
 import { PackageData } from "./factory/types";
 
@@ -34,5 +34,5 @@ const convertReportProps = (categorizedData: CategorizedData): ReportProps => {
 
 export const generateReport = (data: CategorizedData): string => {
   const props = convertReportProps(data);
-  return "<!doctype html>" + renderToStaticMarkup(<Report {...props} />);
+  return "<!doctype html>" + render(<Report {...props} />);
 };
