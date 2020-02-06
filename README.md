@@ -15,6 +15,12 @@ yarn add -D libcheck
 
 ### Generate HTML report
 
+before install
+
+```
+yarn add react react-dom
+```
+
 ```bash
 libcheck --input ./yarn.lock --html ./report.html --pattern "[String RegExp]"
 ```
