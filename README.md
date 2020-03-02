@@ -1,4 +1,4 @@
-# libcheck
+# yarnlock-dedupe-check
 
 Check the following.
 
@@ -8,29 +8,45 @@ Check the following.
 ## Install
 
 ```bash
-yarn add -D libcheck
+yarn add -D yarnlock-dedupe-check
 ```
 
 ## Usage
 
-### Generate HTML report
-
 ```bash
-libcheck --input ./yarn.lock --html ./report.html --pattern "[String RegExp]"
+Usage: yarnlock-dedupe-check [options]
+
+Check the health of npm libraries installed with yarn or npm.
+
+Options:
+  -V, --version           output the version number
+  -i --input <yarn.lock>  input yarn.lock file
+  --json <output.json>    output filename.
+  --html <output.html>    output html filename.
+  --ignore <regex>        ignore regex pattern
+  --test <regex>          test target pattern
+  --warn <regex>          warning target pattern
+  -h, --help              output usage information
 ```
 
-DEMO: https://himenon.github.io/node-libcheck/
-
-### Generate JSON
+### Generate JSON report
 
 ```bash
-libcheck --input ./yarn.lock --html ./report.html --pattern "[String RegExp]"
+yarnlock-dedupe-check --input ./yarn.lock --test "[String RegExp]" --json ./report.json
+```
+
+DEMO: https://himenon.github.io/node-yarnlock-dedupe-check/
+
+### Generate HTML Report
+
+```bash
+yarnlock-dedupe-check --input ./yarn.lock --test "[String RegExp]" --html ./report.html
 ```
 
 ### Test
 
 ```bash
-libcheck --input ./yarn.lock --pattern "[String RegExp]" --test
+yarnlock-dedupe-check --input ./yarn.lock --test "^react$" --warn "react"
 ```
 
 ### Select target
@@ -40,13 +56,6 @@ libcheck --input ./yarn.lock --pattern "[String RegExp]" --test
 
 ## TODO
 
-features
-
-* [x] yarn.lock
-* [ ] package-lock.json
-* [ ] other?
-
-
 ## License
 
-libcheck is [MIT licensed](https://github.com/Himenon/libcheck/blob/master/LICENSE).
+yarnlock-dedupe-check is [MIT licensed](https://github.com/Himenon/yarnlock-dedupe-check/blob/master/LICENSE).

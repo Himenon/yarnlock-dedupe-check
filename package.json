@@ -1,5 +1,5 @@
 {
-  "name": "libcheck",
+  "name": "yarnlock-dedupe-check",
   "version": "1.4.0",
   "description": "Check the health of npm libraries installed with yarn or npm.",
   "author": {
@@ -8,13 +8,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Himenon/node-libcheck.git"
+    "url": "https://github.com/Himenon/node-yarnlock-dedupe-check.git"
   },
   "bugs": {
-    "url": "https://github.com/Himenon/node-libcheck/issues"
+    "url": "https://github.com/Himenon/node-yarnlock-dedupe-check/issues"
   },
   "bin": {
-    "libcheck": "./bin/libcheck.js"
+    "yarnlock-dedupe-check": "./bin/yarnlock-dedupe-check.js"
   },
   "files": [
     "bin",
