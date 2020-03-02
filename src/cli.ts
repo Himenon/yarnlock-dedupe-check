@@ -4,9 +4,9 @@ const pkg = require("../package.json");
 export interface InputParams {
   inputLockFile: string;
   jsonFileName: string | undefined;
-  test: boolean;
-  checkPattern: string | undefined;
-  testSkipPattern: string | undefined;
+  testPattern: string | undefined;
+  warningPattern: string | undefined;
+  ignorePattern: string | undefined;
   html: string | undefined;
 }
 
@@ -17,17 +17,17 @@ export const getInputParams = (): InputParams => {
     .option("-i --input <yarn.lock>", "input yarn.lock file")
     .option("--json <output.json>", "output filename.")
     .option("--html <output.html>", "output html filename.")
-    .option("-p --pattern <regex>", "test target pattern")
-    .option("--skip <regex>", "skip regex pattern")
-    .option("--test", "flag")
+    .option("--ignore <regex>", "ignore regex pattern")
+    .option("--test <regex>", "test target pattern")
+    .option("--warn <regex>", "warning target pattern")
     .parse(process.argv);
 
   return {
     inputLockFile: commander["input"],
     jsonFileName: commander["json"],
-    checkPattern: commander["pattern"],
-    testSkipPattern: commander["skip"],
+    testPattern: commander["test"],
+    warningPattern: commander["warn"],
+    ignorePattern: commander["ignore"],
     html: commander["html"],
-    test: !!commander["test"],
   };
 };

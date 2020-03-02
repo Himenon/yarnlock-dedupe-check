@@ -1,4 +1,4 @@
-import { PackageStructure } from "./types";
+import { CheckCallback, PackageStructure } from "./types";
 import * as Yarn from "./yarn";
 import { Found } from "../findPackageJson";
 
@@ -24,12 +24,12 @@ const foundDataToYarnLockObject = (found: Found): Yarn.OriginData => {
 export const generatePackageStructure = (
   { type, data }: OriginData,
   found: Found,
-  checkPattern: CheckPackagePattern = undefined,
-  testSkipPattern: CheckPackagePattern = undefined,
+  isTargetCallback: CheckCallback,
+  isIgnoreTarget: CheckCallback,
 ): PackageStructure => {
   if (type === "yarn") {
     const convertedData = foundDataToYarnLockObject(found);
-    return Yarn.generateDisplayPackageData({ ...data, ...convertedData }, checkPattern, testSkipPattern);
+    return Yarn.generateDisplayPackageData({ ...data, ...convertedData }, isTargetCallback, isIgnoreTarget);
   }
   throw new Error("Please choice type 'yarn' or 'npm'");
 };

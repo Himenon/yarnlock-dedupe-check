@@ -1,6 +1,6 @@
 import * as lockfile from "@yarnpkg/lockfile";
 import { parseConcatNameAndVersionString } from "../parser";
-import { PurePackageData, DisplayPackageData, InstalledPackage, PackageStructure } from "./types";
+import { CheckCallback, PurePackageData, DisplayPackageData, InstalledPackage, PackageStructure } from "./types";
 import { uniq } from "../utils";
 
 export type OriginData = lockfile.YarnLockObject;
@@ -23,14 +23,14 @@ export const generateUsed = ({ name, version }: PurePackageData, obj: OriginData
   }, []);
 };
 
-export const generateDisplayPackageData = (obj: OriginData, checkPackageName: RegExp | undefined = undefined, testSkipPattern: RegExp | undefined = undefined): PackageStructure => {
+export const generateDisplayPackageData = (obj: OriginData, isTargetCallback: CheckCallback, isIgnoreTarget: CheckCallback): PackageStructure => {
   const packageNameList: string[] = [];
 
   const dataSet: DependencyItem[] = Object.entries(obj).map(([key, value]) => {
     const purePackageData = parseConcatNameAndVersionString(key);
-    const isSkipTarget: boolean = !!testSkipPattern && !!purePackageData.name.match(testSkipPattern);
-    const isIgnoreTarget: boolean = !!checkPackageName && !purePackageData.name.match(checkPackageName);
-    const isCheckLibrary = isSkipTarget ? false : !isIgnoreTarget;
+    const isTarget: boolean = isTargetCallback(purePackageData.name);
+    const isIgnore: boolean = isIgnoreTarget(purePackageData.name);
+    const isCheckLibrary = isIgnore ? false : isTarget;
     const usingPackages = isCheckLibrary ? generateUsed(purePackageData, obj) : [];
     packageNameList.push(purePackageData.name);
     return {

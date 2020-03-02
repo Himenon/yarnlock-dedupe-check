@@ -2,6 +2,8 @@ import { PurePackageData } from "../types";
 
 export { PurePackageData };
 
+export type CheckCallback = (name: string) => boolean;
+
 export interface Dependency {
   realUsedVersion: string;
   usingPackages: PurePackageData[];
