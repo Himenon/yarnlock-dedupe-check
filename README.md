@@ -19,14 +19,14 @@ Usage: yarnlock-dedupe-check [options]
 Check the health of npm libraries installed with yarn or npm.
 
 Options:
-  -V, --version           output the version number
-  -i --input <yarn.lock>  input yarn.lock file
-  --json <output.json>    output filename.
-  --html <output.html>    output html filename.
-  --ignore <regex>        ignore regex pattern
-  --test <regex>          test target pattern
-  --warn <regex>          warning target pattern
-  -h, --help              output usage information
+  -V, --version                               output the version number
+  -i --input <yarn.lock | package-lock.json>  input yarn.lock file
+  --json <output.json>                        output filename.
+  --html <output.html>                        output html filename.
+  --ignore <regex>                            ignore regex pattern
+  --test <regex>                              test target pattern
+  --warn <regex>                              warning target pattern
+  -h, --help                                  output usage information
 ```
 
 ### Generate JSON report
@@ -53,8 +53,6 @@ yarnlock-dedupe-check --input ./yarn.lock --test "^react$" --warn "react"
 
 * `--pattern` : test target (JS RegExp)
 * `--skip`    : test skip target (JS RegExp)
-
-## TODO
 
 ## License
 
