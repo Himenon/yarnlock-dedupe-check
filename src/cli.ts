@@ -14,7 +14,7 @@ export const getInputParams = (): InputParams => {
   commander
     .version(pkg.version)
     .description(pkg.description)
-    .option("-i --input <yarn.lock>", "input yarn.lock file")
+    .option("-i --input <yarn.lock | package-lock.json>", "input yarn.lock file")
     .option("--json <output.json>", "output filename.")
     .option("--html <output.html>", "output html filename.")
     .option("--ignore <regex>", "ignore regex pattern")

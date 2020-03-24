@@ -53,6 +53,7 @@
     "glob": "^7.1.6",
     "preact": "^10.3.0",
     "preact-render-to-string": "^5.1.4",
+    "synp": "^1.7.0",
     "yarn-lockfile": "^1.1.1"
   }
 }

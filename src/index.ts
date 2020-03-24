@@ -9,7 +9,13 @@ import { CategorizedData, generateReport } from "./reporter";
 import { validate } from "./validator";
 import { findPackageJson, Found } from "./findPackageJson";
 
+const { npmToYarn } = require("synp");
+
 export const getParsedValue = (lockfilePath: string) => {
+  if (lockfilePath.match("package-lock.json")) {
+    const stringifiedYarnLock = npmToYarn(path.dirname(lockfilePath));
+    return lockfile.parse(stringifiedYarnLock);
+  }
   const raw = fs.readFileSync(lockfilePath, "utf8");
   return lockfile.parse(raw);
 };
