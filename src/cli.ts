@@ -11,7 +11,9 @@ export interface InputParams {
 }
 
 export const getInputParams = (): InputParams => {
-  commander
+  const program = new commander.Command();
+
+  program
     .version(pkg.version)
     .description(pkg.description)
     .option("-i --input <yarn.lock | package-lock.json>", "input yarn.lock file")
@@ -22,12 +24,14 @@ export const getInputParams = (): InputParams => {
     .option("--warn <regex>", "warning target pattern")
     .parse(process.argv);
 
+  const options = program.opts();
+
   return {
-    inputLockFile: commander["input"],
-    jsonFileName: commander["json"],
-    testPattern: commander["test"],
-    warningPattern: commander["warn"],
-    ignorePattern: commander["ignore"],
-    html: commander["html"],
+    inputLockFile: options["input"],
+    jsonFileName: options["json"],
+    testPattern: options["test"],
+    warningPattern: options["warn"],
+    ignorePattern: options["ignore"],
+    html: options["html"],
   };
 };

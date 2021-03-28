@@ -43,6 +43,8 @@ DEMO: https://himenon.github.io/node-yarnlock-dedupe-check/
 yarnlock-dedupe-check --input ./yarn.lock --test "[String RegExp]" --html ./report.html
 ```
 
+DEMO: <https://himenon.github.io/yarnlock-dedupe-check>
+
 ### Test
 
 ```bash
