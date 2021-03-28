@@ -30,7 +30,7 @@
     "build": "tsc -b tsconfig.json",
     "format": "prettier --write \"src/**/*.{ts,tsx}\"",
     "test": "yarn-deduplicate --fail",
-    "gen:html": "node ./lib/index.js --input yarn.lock --html docs/index.html"
+    "gen:html": "node ./lib/index.js --input yarn.lock --html docs/index.html --test \"/*/\""
   },
   "peerDependencies": {},
   "devDependencies": {
