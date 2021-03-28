@@ -1,6 +1,6 @@
 {
   "name": "yarnlock-dedupe-check",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Check the health of npm libraries installed with yarn or npm.",
   "author": {
     "name": "Himenon",
